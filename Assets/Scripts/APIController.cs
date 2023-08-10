@@ -24,10 +24,12 @@ public class APIController
         }
 
         var jsonResponse = webRequest.downloadHandler.text;
+        Debug.Log(jsonResponse.GetType());
 
         try
         {
-            TResultType result = JsonConvert.DeserializeObject<TResultType>(jsonResponse, new SOConverter<QuestionData>()); ;
+            TResultType result = JsonConvert.DeserializeObject<TResultType>(jsonResponse, /*new SOConverter<QuestionData>()*/ new QuestionConverter());
+        
             return result;
         }
         catch (Exception ex)

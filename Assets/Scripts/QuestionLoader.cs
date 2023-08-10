@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class QuestionLoader : MonoBehaviour
 {
+    /*
     [ContextMenu("Test Get")]
     public async void TestGet()
     {
@@ -13,6 +14,7 @@ public class QuestionLoader : MonoBehaviour
 
         var httpClient = new APIController();
         var result = await httpClient.Get<QuestionData[]>(url);
-        Debug.Log(result.Length);
+        //Debug.Log(result.Length);
     }
+    */
 }

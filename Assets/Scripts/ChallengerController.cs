@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class ChallengerController : MonoBehaviour, Interactable
 {
-    public void Interact()
+    public Task Interact()
     {
-        Debug.Log("We will have a battle!");
+        return new Task();
+        //Debug.Log("We will have a battle!");
     }
 }

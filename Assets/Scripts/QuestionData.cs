@@ -9,63 +9,49 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 
-public class Question : ScriptableObject
+public abstract class Question : ScriptableObject
 {
-    //public string questionText;
-    /*
-    public void SetQuestion();
-    public string GetCorrectAnswer();
-    public int GetType();
-    */
+    public string QuestionText;
+
+    public string GetQuestionText()
+    {
+        return QuestionText;
+    }
+
+    public abstract string[] GetAnswerOptions();
+
+    public abstract string GetCorrectAnswer();
+    
 }
 
 public class FillInQuestion : Question
 {
-    public string questionText;
     public string correctAnswer;
 
-
-    /*
-    public void SetQuestion()
+    public override string[] GetAnswerOptions()
     {
+        return null;
     }
 
-    public string GetCorrectAnswer()
+    public override string GetCorrectAnswer()
     {
-        return "";
+        return correctAnswer;
     }
-
-    public int GetType()
-    {
-        return 0;
-    }
-    */
 }
 
-public class QuestionData : Question
+public class MCQuestion : Question
 {
-    public string questionText;
     public string[] answerOptions;
     public int correctAnswerIndex;
-
-    /*
-    public void SetQuestion()
+    public override string GetCorrectAnswer()
     {
+         return answerOptions[correctAnswerIndex];
     }
-
-    public string GetCorrectAnswer()
+    public override string[] GetAnswerOptions()
     {
-        return "";
-    }
-
-    public int GetType()
-    {
-        return 0;
-    }
-    */
+        return answerOptions;
+    } 
 }
-
-
 
 //Solve the warning: "Must be instantiated using the ScriptableObject.CreateInstance method instead of new SO"
 public class SOConverter<T> : CustomCreationConverter<T> where T : ScriptableObject
@@ -89,14 +75,13 @@ public class QuestionConverter : JsonCreationConverter<Question>
     {
         if (FieldExists("correctAnswer", jObject))
         {
-            //return (FillInQuestion)ScriptableObject.CreateInstance(objectType);
             if (typeof(Question).IsAssignableFrom(objectType))
                 return (FillInQuestion)ScriptableObject.CreateInstance(typeof(FillInQuestion));
         }
         else if (FieldExists("correctAnswerIndex", jObject))
         {
             if (typeof(Question).IsAssignableFrom(objectType))
-                return (QuestionData)ScriptableObject.CreateInstance(typeof(QuestionData));
+                return (MCQuestion)ScriptableObject.CreateInstance(typeof(MCQuestion));
         }
 
         return null;

@@ -5,9 +5,8 @@ using UnityEngine;
 
 public class ChallengerController : MonoBehaviour, Interactable
 {
-    public Task Interact()
+    public void Interact()
     {
-        return new Task();
-        //Debug.Log("We will have a battle!");
+        Debug.Log("We will have a battle!");
     }
 }

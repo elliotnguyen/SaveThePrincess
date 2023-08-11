@@ -6,5 +6,6 @@ using UnityEngine;
 public interface Interactable
 {
     //public async void Interact();
-    public Task Interact();
+    //public Task Interact();
+    public void Interact();
 }

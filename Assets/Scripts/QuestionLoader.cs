@@ -6,15 +6,25 @@ using UnityEngine.UI;
 
 public class QuestionLoader : MonoBehaviour
 {
-    /*
-    [ContextMenu("Test Get")]
-    public async void TestGet()
+    public List<Question> QuizList;
+
+    public static QuestionLoader Instance { get; private set; }
+
+    private void Awake()
     {
-        var url = "https://mocki.io/v1/2f64d0ca-0813-434e-9bd2-91a184ae6d70";
+        Instance = this;
+    }
+
+    public async void Start()
+    {
+        var url = "https://mocki.io/v1/46f4b3a0-690d-4308-b897-1bef1df4c7e3";
 
         var httpClient = new APIController();
-        var result = await httpClient.Get<QuestionData[]>(url);
-        //Debug.Log(result.Length);
+        QuizList = await httpClient.Get<List<Question>>(url);
+      
+        for (int i = 0; i < QuizList.Count; i++)
+        {
+            Debug.Log(QuizList[i].GetCorrectAnswer());
+        }
     }
-    */
 }

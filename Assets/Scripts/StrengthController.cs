@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class StrengthController : MonoBehaviour
 {
+
     // Start is called before the first frame update
     void Start()
     {

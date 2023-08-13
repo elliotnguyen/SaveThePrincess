@@ -15,6 +15,8 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
+        playerController = GameObject.FindWithTag("player").GetComponent<PlayerController>();
+
         DisplayQuestion.Instance.OnShowQuiz += () =>
         {
             state = GameState.SolveQuiz;

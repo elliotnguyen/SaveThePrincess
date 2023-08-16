@@ -16,7 +16,9 @@ public class DisplayQuestion : MonoBehaviour
     [SerializeField] Text FillInText;
     [SerializeField] InputField inputField;
     [SerializeField] Button SubmitButton;
-
+    [SerializeField] HealthController healthController;
+    [SerializeField] StrengthController strengthController;
+    [SerializeField] HeroKnight heroKnight;
     [SerializeField] int lettersPerSecond;
 
     public event Action OnShowQuiz;
@@ -91,7 +93,7 @@ public class DisplayQuestion : MonoBehaviour
 
         if (data is MCQuestion)
         {
-            //MCQText.text = "";
+            MCQText.text = "";
             foreach (var letter in data.GetQuestionText().ToCharArray())
             {
                 MCQText.text += letter;
@@ -102,6 +104,7 @@ public class DisplayQuestion : MonoBehaviour
 
             for (int i = 0; i < MCQOptions.Length; i++)
             {
+                MCQOptions[i].GetComponentInChildren<Text>().text = "";
                 foreach (var letter in data.GetAnswerOptions()[i].ToCharArray())
                 {
                     MCQOptions[i].GetComponentInChildren<Text>().text += letter;
@@ -113,22 +116,26 @@ public class DisplayQuestion : MonoBehaviour
             {
                 if (MCQOptions[i].GetComponentInChildren<Text>().text.Equals(data.GetCorrectAnswer()))
                 {
+                    MCQOptions[i].onClick.RemoveAllListeners();
                     MCQOptions[i].onClick.AddListener(delegate { Right(); });
                 }
                 else
                 {
+                    MCQOptions[i].onClick.RemoveAllListeners();
                     MCQOptions[i].onClick.AddListener(delegate { Wrong(); });
                 }
             }
         } else
         {
+            FillInText.text="";
+            inputField.text="";
             foreach (var letter in data.GetQuestionText().ToCharArray())
             {
                 FillInText.text += letter;
                 yield return new WaitForSeconds(1f / lettersPerSecond);
             }
 
-            
+            SubmitButton.onClick.RemoveAllListeners();
             SubmitButton.onClick.AddListener(delegate { Check(); });
         }
        
@@ -139,12 +146,19 @@ public class DisplayQuestion : MonoBehaviour
     {
         Debug.Log("You chose the wrong answer!");
         CloseTheBox();
+        if(healthController.DamagePlayer())
+            heroKnight.Hurt();
+        else
+            heroKnight.Death();
+        
     }
 
     private void Right()
     {
         Debug.Log("You chose the correct answer!");
         CloseTheBox();
+        strengthController.StrongerPlayer();
+        
     }
 
     public void Check()
@@ -155,10 +169,18 @@ public class DisplayQuestion : MonoBehaviour
         {
             Debug.Log("You entered the correct answer!");
             CloseTheBox();
+            strengthController.StrongerPlayer();
+            
         } else
         {
-            Debug.Log("You entered the wrong answer!");
             CloseTheBox();
+            Debug.Log("You entered the wrong answer!");
+            if(healthController.DamagePlayer())
+                heroKnight.Hurt();
+            else
+                heroKnight.Death();
+        
+            
         }
     }
 }

@@ -7,7 +7,6 @@ public class NPCController : MonoBehaviour, Interactable
 {
     //[SerializeField] Dialog dialog;
     //[SerializeField] QuestionData quiz;
-
     //public async Task Interact()
     public void Interact()
     {
@@ -23,7 +22,11 @@ public class NPCController : MonoBehaviour, Interactable
         //QuestionData[] questions = APIController.Instance.questions;
         //dialog.AddLine(questions[0].questionText);
         //StartCoroutine(DialogManager.Instance.ShowDialog(dialog));
-        Question tmp = QuestionLoader.Instance.QuizList[1];
+        List<Question> Qlist = QuestionLoader.Instance.QuizList;
+        int index = Random.Range(0,Qlist.Count);
+        Question tmp = Qlist[index];
+        Qlist.RemoveAt(index);
         StartCoroutine(DisplayQuestion.Instance.ShowQuestion(tmp));
+        Destroy(gameObject, 0.1f);
     }
 }

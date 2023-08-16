@@ -102,6 +102,7 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed;
 
     private bool isMoving;
+    public bool isAttacking = false;
 
     private Vector2 input;
 
@@ -115,8 +116,30 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
+    IEnumerator Attack()
+    {
+        isAttacking = true;
+        animator.SetBool("isAttacking", isAttacking);
+
+        while (true)
+        {
+            yield return null;
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                isAttacking = false;
+                animator.SetBool("isAttacking", isAttacking);
+                break;
+            }
+        }
+    }
+
     public void HandleUpdate()
     {
+        if (!isAttacking && Input.GetKeyDown(KeyCode.Space))
+        {
+            StartCoroutine(Attack());
+        }
+
         if (!isMoving)
         {
             var targetPos = transform.position;
@@ -143,7 +166,7 @@ public class PlayerController : MonoBehaviour
             }
             if (targetPos != transform.position)// && IsWalkAble(targetPos))
             {
-                Debug.Log("From: " + transform.position.ToString() + "To:" + targetPos.ToString());
+                //Debug.Log("From: " + transform.position.ToString() + "To:" + targetPos.ToString());
                 StartCoroutine(Move(targetPos));
             }
         }

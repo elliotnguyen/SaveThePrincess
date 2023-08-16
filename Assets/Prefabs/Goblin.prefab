@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2514299529389667426}
   - component: {fileID: 931266514614929928}
   - component: {fileID: 7200397772739406465}
+  - component: {fileID: 6779288779168893630}
   m_Layer: 0
   m_Name: Goblin
   m_TagString: Untagged
@@ -29,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -39, y: 7.9, z: 0}
-  m_LocalScale: {x: 8.001363, y: 8.597659, z: 1}
+  m_LocalScale: {x: 10.420975, y: 10.814996, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -125,3 +126,19 @@ MonoBehaviour:
   timeToDie: 1
   attackableDistance: 7
   deadDistance: 3
+--- !u!114 &6779288779168893630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4133808411974734158}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f56e5aad0b634ec8b22c4d1a9e85d15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  topBound: 90
+  downBound: 70
+  leftBound: -250
+  rightBound: -132

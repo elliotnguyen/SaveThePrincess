@@ -32,7 +32,7 @@ public class GameController : MonoBehaviour
     {
        if (state == GameState.FreeRoam)
         {
-            playerController.HandleUpdate();
+            //playerController.HandleUpdate();
         } else if (state == GameState.SolveQuiz)
         {
             DisplayQuestion.Instance.HandleUpdate();

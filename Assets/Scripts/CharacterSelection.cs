@@ -41,9 +41,10 @@ public class CharacterSelection : MonoBehaviour
 
     private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
     {
+        Vector3 position = new Vector3(-292, 53, 0);
         if (scene.name == "GamePlay")
         {
-            Instantiate(characters[CharIndex]);
+            Instantiate(characters[CharIndex], position, Quaternion.identity);
         }
     }
 }

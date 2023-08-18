@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 2514299529389667426}
   - component: {fileID: 931266514614929928}
   - component: {fileID: 7200397772739406465}
-  - component: {fileID: 6779288779168893630}
   m_Layer: 0
   m_Name: Goblin
   m_TagString: Untagged
@@ -122,23 +121,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 2
   strength: 2
-  player: {fileID: 0}
+  knight: {fileID: 0}
   timeToDie: 1
-  attackableDistance: 7
-  deadDistance: 3
---- !u!114 &6779288779168893630
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4133808411974734158}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f56e5aad0b634ec8b22c4d1a9e85d15, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  topBound: 90
-  downBound: 70
-  leftBound: -250
-  rightBound: -132
+  attackableDistance: 70
+  deadDistance: 25
+  walkableDistance: 1000
+  leftBound: -286
+  rightBound: -240

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4645609423566296666}
   - component: {fileID: 4807540327108466273}
   - component: {fileID: 3916521776239129337}
-  - component: {fileID: 2335059544413005464}
+  - component: {fileID: 1858147762783511453}
   m_Layer: 8
   m_Name: FlyingBird
   m_TagString: enemies
@@ -120,11 +120,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f56e5aad0b634ec8b22c4d1a9e85d15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  topBound: 20
-  downBound: -50
-  leftBound: -80
-  rightBound: 30
---- !u!114 &2335059544413005464
+  topBound: 115
+  downBound: 30
+  leftBound: -300
+  rightBound: -122
+--- !u!114 &1858147762783511453
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -133,9 +133,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1270190115649823664}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4821a424f38d74abdac295076778a719, type: 3}
+  m_Script: {fileID: 11500000, guid: 67759c180913a4355adbd29c9138a892, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 2
   strength: 2
-  player: {fileID: 0}
+  knight: {fileID: 0}
+  timeToDie: 3
+  attackableDistance: 100
+  deadDistance: 25

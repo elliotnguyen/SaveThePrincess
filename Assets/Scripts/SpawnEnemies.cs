@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class SpawnEnemies : MonoBehaviour
 {
     public GameObject[] enemiesPrefabs;
+    //public GameObject enemy;
 
     [SerializeField] float topBound;
     [SerializeField] float downBound;
@@ -28,6 +30,6 @@ public class SpawnEnemies : MonoBehaviour
     void SpawnInDirection(Vector3 position)
     {
         int enemyIndex = Random.Range(0, enemiesPrefabs.Length);
-        Instantiate(enemiesPrefabs[enemyIndex], position, Quaternion.identity); ;
+        Instantiate(enemiesPrefabs[enemyIndex], position, Quaternion.identity);
     }
 }

@@ -21,7 +21,7 @@ public class HeroKnight : MonoBehaviour {
     private bool                m_rolling = false;
     private int                 m_facingDirection = 1;
     private int                 m_currentAttack = 0;
-    private float               m_timeSinceAttack = 0.0f;
+    public float               m_timeSinceAttack = 0.0f;
     private float               m_delayToIdle = 0.0f;
     private float               m_rollDuration = 8.0f / 14.0f;
     private float               m_rollCurrentTime;
@@ -192,4 +192,28 @@ public class HeroKnight : MonoBehaviour {
             dust.transform.localScale = new Vector3(m_facingDirection, 1, 1);
         }
     }
+
+    public void Death()
+    {
+        m_animator.SetBool("noBlood", m_noBlood);
+        m_animator.SetTrigger("Death");
+    }
+
+    public void Hurt()
+    {
+        m_animator.SetTrigger("Hurt");
+    }
+
+    /*
+    private void Interact()
+    {
+
+        var interactPos = m_body2d.transform.position;
+        var collider = Physics2D.OverlapCircle(interactPos, 10f, LayerMask.GetMask("Interables"));
+        if (collider != null)
+        {
+            collider.GetComponent<Interactable>()?.Interact();
+        }
+    }
+    */
 }

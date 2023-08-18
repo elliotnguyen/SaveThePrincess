@@ -23,7 +23,7 @@ public class NPCController : MonoBehaviour, Interactable
         //QuestionData[] questions = APIController.Instance.questions;
         //dialog.AddLine(questions[0].questionText);
         //StartCoroutine(DialogManager.Instance.ShowDialog(dialog));
-        Question tmp = QuestionLoader.Instance.QuizList[1];
+        Question tmp = QuestionLoader.Instance.QuizList[0];
         StartCoroutine(DisplayQuestion.Instance.ShowQuestion(tmp));
     }
 }

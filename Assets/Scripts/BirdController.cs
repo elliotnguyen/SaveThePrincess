@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemiesController : MonoBehaviour
+public class BController : MonoBehaviour
 {
     [SerializeField] float moveSpeed = 2;
     [SerializeField] int strength = 2;
@@ -10,17 +10,12 @@ public class EnemiesController : MonoBehaviour
     [SerializeField] float timeToDie = 3f;
     [SerializeField] float attackableDistance = 100f;
     [SerializeField] float deadDistance = 25f;
-    [SerializeField] float walkableDistance = 200;
-
-    [SerializeField] float leftBound = -285;
-    [SerializeField] float rightBound = -240;
-    [SerializeField] float positionY = 44.21f;
 
     private bool attack1 = false;
     private bool attack2 = false;
     private bool takehit = false;
     private bool isDeath = false;
-    private bool isWalk = false;
+    private bool isFlight = true;
 
     private Animator animator;
     public static bool HasParameter(string paramName, Animator animator)
@@ -42,16 +37,11 @@ public class EnemiesController : MonoBehaviour
 
     void Start()
     {
-        
+
     }
 
     public void Update()
     {
-        if (transform.position.x >= rightBound && transform.position.x <= 0)
-        {
-            Vector3 newPos = new Vector3(leftBound, positionY, 0);
-            transform.position = newPos;
-        }
         StartCoroutine(Move());
     }
 
@@ -70,13 +60,6 @@ public class EnemiesController : MonoBehaviour
             attack2 = true;
             animator.SetBool("attack2", attack2);
         }
-
-        /*
-        if (!player.isAttacking)
-        {
-            //Debug.Log("knock out!");
-        }
-        */
     }
 
     private void Death()
@@ -87,68 +70,35 @@ public class EnemiesController : MonoBehaviour
     // Update is called once per frame
     IEnumerator Move()
     {
-        //Debug.Log(transform.position.x);
-       
         if (!isDeath)
         {
             takehit = takehit && false;
-
-            /*
-            if (HasParameter("isWalk", animator))
-            {
-                animator.SetBool("isWalk", true);
-            }
-
-            if (isWalk)
-            {
-                transform.Translate(Vector3.right * Time.deltaTime * moveSpeed);
-            }
-            */
 
             yield return null;
 
             var distanceTowardPlayer = transform.position - knight.transform.position;
 
-            if (HasParameter("isWalk", animator))
-            {
-                if (distanceTowardPlayer.sqrMagnitude < walkableDistance)
-                {
-                    isWalk = true;
-                    animator.SetBool("isWalk", isWalk);
-                } else
-                {
-                    isWalk = false;
-                    animator.SetBool("isWalk", isWalk);
-                }
-            }
-
-            if (isWalk)
+            if (isFlight)
             {
                 transform.Translate(Vector3.right * Time.deltaTime * moveSpeed);
             }
 
             if (distanceTowardPlayer.sqrMagnitude < deadDistance)
             {
-                //Debug.Log("player" + player.isAttacking);
-                //Debug.Log("transform" + player.transform.position.y);
-                //Debug.Log(player.isAttacking);
-                //Debug.Log(transform.position.y + " " + player.transform.position.y);
-                
-
-                if (knight.m_timeSinceAttack != 0)
+                if (knight.m_timeSinceAttack >= 1)
                 {
                     //Debug.Log("hello");
                     takehit = true;
                     animator.SetBool("takehit", takehit);
                     strength--;
-                } 
+                }
 
                 if (strength == 0)
                 {
                     isDeath = true;
-                    isWalk = false;
+                    isFlight = false;
 
-                    animator.SetBool("isWalk", isWalk);
+                    animator.SetBool("isWalk", isFlight);
                     animator.SetBool("isDeath", isDeath);
 
                     Invoke("Death", timeToDie);
@@ -174,3 +124,4 @@ public class EnemiesController : MonoBehaviour
         }
     }
 }
+

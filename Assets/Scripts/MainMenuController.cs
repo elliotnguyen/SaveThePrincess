@@ -8,7 +8,8 @@ using UnityEngine.UI;
 public class MainMenuController : MonoBehaviour
 {
     [SerializeField] Sprite[] characterSprite;
-    public SpriteRenderer artWorkSprite;
+    //public SpriteRenderer[] artWorkSprite;
+    public GameObject[] artWorkSprite;
 
     private int selectedOption = 0;
 
@@ -43,7 +44,15 @@ public class MainMenuController : MonoBehaviour
 
     private void UpdateCharacter(int selectedOption)
     {
-        artWorkSprite.sprite = characterSprite[selectedOption];
+        for (int i = 0; i < artWorkSprite.Length; i++)
+        {
+            if (i == selectedOption)
+            {
+                artWorkSprite[i].SetActive(true);
+            } else artWorkSprite[i].SetActive(false);
+        }
+        //artWorkSprite[selectedOption].SetActive(true);
+        //= characterSprite[selectedOption];
     }
 
     public void PlayGame()

@@ -11,11 +11,18 @@ public class HealthController : MonoBehaviour
     private int numsOfCorrectAnswer = 0;
     private int maximumWrongAnswer = 0;
     private int numsOfQuestions = 0;
+
     private HeroKnight player;
+
+    //[SerializeField] GameObject congratulation;
+    //[SerializeField] GameObject gameover;
     
     // Start is called before the first frame update
     void Start()
     {
+        //congratulation = GameObject.FindGameObjectWithTag("congratulation");
+        //gameover = GameObject.FindGameObjectWithTag("gameover");
+
         player = GameObject.FindGameObjectWithTag("player").GetComponent<HeroKnight>();
         numsOfQuestions = QuestionLoader.Instance.QuizList.Count; 
         maximumWrongAnswer = numsOfQuestions / 5;
@@ -23,6 +30,7 @@ public class HealthController : MonoBehaviour
         healthBar.maxValue = maximumWrongAnswer != 0? maximumWrongAnswer : 1;
         healthBar.value = healthBar.maxValue;
     }
+
     void Update()
     {
         if (numsOfQuestions == 0)
@@ -49,25 +57,27 @@ public class HealthController : MonoBehaviour
         Debug.Log(numsOfCorrectAnswer);
         Debug.Log(numsOfQuestions);
 
-        if (numsOfCorrectAnswer == numsOfQuestions)
+        if (numsOfCorrectAnswer == 1/*numsOfQuestions*/)
         {
-            Debug.Log("You win!");
+            Congratulation.Instance.WinnerBox.SetActive(true);
         }
     }
 
-    public bool Damage()
+    public void Damage()
     {
         numsOfWrongAnswer++;
         healthBar.value -= 1;
 
-        if (numsOfWrongAnswer == maximumWrongAnswer)
+        if (numsOfWrongAnswer == 1/*maximumWrongAnswer*/)
         {
             player.Death();
-            return false;
+            //gameover.Display();
+            GameOver.Instance.Over.SetActive(true);
+            //return true;
         }
         
         player.Hurt();
 
-        return true;
+        //return false;
     }
 }

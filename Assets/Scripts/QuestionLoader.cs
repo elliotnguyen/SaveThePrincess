@@ -20,13 +20,19 @@ public class QuestionLoader : MonoBehaviour
         APILink = link;
     }
 
+    public string GetLink()
+    {
+        return APILink;
+    }
+
     private void Awake()
     {
         Instance = this;
     }
     public async void Start()
     {
-        var url = "http://localhost:3001/api/test/get_questions/64dd204d1c157746f11b69c6"/*APILink*/;
+        //var url = "http://localhost:3001/api/test/get_questions/64dd204d1c157746f11b69c6"/*APILink*/;
+        var url = APILink;
 
         var httpClient = new APIController();
         QuizList = await httpClient.Get<List<Question>>(url);

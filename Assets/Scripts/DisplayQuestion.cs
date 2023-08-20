@@ -65,7 +65,7 @@ public class DisplayQuestion : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Z) && !isTyping)
         {
-            Debug.Log("HandleUpdate");
+            //Debug.Log("HandleUpdate");
             CloseTheBox();
         }
     }
@@ -150,11 +150,13 @@ public class DisplayQuestion : MonoBehaviour
     private void Wrong()
     {
         CloseTheBox();
+        player.Damage();
+        /*
         if(!player.Damage())
         {
             SceneManager.LoadScene("MainMenu");
         }
-        
+        */
     }
 
     private void Right()
@@ -178,10 +180,12 @@ public class DisplayQuestion : MonoBehaviour
         {
             CloseTheBox();
             Debug.Log("You entered the wrong answer!");
+            /*
             if(!player.Damage())
             {
                 SceneManager.LoadScene("MainMenu");
             }
+            */
         }
     }
 }

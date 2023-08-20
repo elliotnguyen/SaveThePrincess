@@ -37,12 +37,12 @@ public class EnemiesController : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         //player = GameObject.FindWithTag("player").GetComponent<PlayerController>();
-        knight = GameObject.FindWithTag("player").GetComponent<HeroKnight>();
+        //knight = GameObject.FindWithTag("player").GetComponent<HeroKnight>();
     }
 
     void Start()
     {
-        
+        knight = GameObject.FindWithTag("player").GetComponent<HeroKnight>();
     }
 
     public void Update()
@@ -135,7 +135,7 @@ public class EnemiesController : MonoBehaviour
                 //Debug.Log(transform.position.y + " " + player.transform.position.y);
                 
 
-                if (knight.m_timeSinceAttack != 0)
+                if (knight.isAttacking)
                 {
                     //Debug.Log("hello");
                     takehit = true;

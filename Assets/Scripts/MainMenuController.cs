@@ -63,6 +63,5 @@ public class MainMenuController : MonoBehaviour
         CharacterSelection.instance.CharIndex = selectedOption;
 
         SceneManager.LoadScene("GamePlay");
-
     }
 }

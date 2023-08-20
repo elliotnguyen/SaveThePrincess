@@ -6,6 +6,8 @@ TagManager:
   tags:
   - player
   - enemies
+  - questionLoader
+  - character
   layers:
   - Default
   - TransparentFX

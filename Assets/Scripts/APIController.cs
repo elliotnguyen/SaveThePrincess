@@ -24,7 +24,7 @@ public class APIController
         }
 
         var jsonResponse = webRequest.downloadHandler.text;
-        Debug.Log(jsonResponse.GetType());
+        //Debug.Log(jsonResponse.GetType());
 
         try
         {

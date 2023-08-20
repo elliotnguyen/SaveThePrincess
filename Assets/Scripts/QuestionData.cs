@@ -11,11 +11,13 @@ using UnityEngine;
 
 public abstract class Question : ScriptableObject
 {
-    public string QuestionText;
+    //public string QuestionText;
+    public string question;
 
     public string GetQuestionText()
     {
-        return QuestionText;
+        //return QuestionText;
+        return question;
     }
 
     public abstract string[] GetAnswerOptions();
@@ -41,15 +43,31 @@ public class FillInQuestion : Question
 
 public class MCQuestion : Question
 {
-    public string[] answerOptions;
-    public int correctAnswerIndex;
+    //public string[] answerOptions;
+    public string[] options;
+    //public int correctAnswerIndex;
+    public string answer;
     public override string GetCorrectAnswer()
     {
-         return answerOptions[correctAnswerIndex];
+        int index = 0;
+        string answerProcess = answer.ToUpper();
+        switch(answer)
+        {
+            case "A": index = 0; break;
+            case "B": index = 1; break;
+            case "C": index = 2; break;
+            case "D": index = 3; break;
+
+            default: throw new ArgumentException();
+        }
+
+        return options[index];
+         //return answerOptions[correctAnswerIndex];
     }
     public override string[] GetAnswerOptions()
     {
-        return answerOptions;
+        //return answerOptions;
+        return options;
     } 
 }
 
@@ -78,7 +96,7 @@ public class QuestionConverter : JsonCreationConverter<Question>
             if (typeof(Question).IsAssignableFrom(objectType))
                 return (FillInQuestion)ScriptableObject.CreateInstance(typeof(FillInQuestion));
         }
-        else if (FieldExists("correctAnswerIndex", jObject))
+        else if (FieldExists("options", jObject))
         {
             if (typeof(Question).IsAssignableFrom(objectType))
                 return (MCQuestion)ScriptableObject.CreateInstance(typeof(MCQuestion));

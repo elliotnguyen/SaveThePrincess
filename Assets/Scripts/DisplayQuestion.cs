@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-//using static UnityEditor.Progress;
 
 
 public class DisplayQuestion : MonoBehaviour
@@ -24,11 +23,19 @@ public class DisplayQuestion : MonoBehaviour
 
     Question data;
 
+    public HealthController player;
+    public GameObject npc;
+
     public static DisplayQuestion Instance { get; private set; }
 
     private void Awake()
     {
         Instance = this;
+    }
+
+    private void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("player").GetComponent<HealthController>();
     }
 
     bool isTyping;
@@ -39,12 +46,9 @@ public class DisplayQuestion : MonoBehaviour
         {
             MCQText.text = "";
 
-            if (data is MCQuestion)
+            for (int i = 0; i < MCQOptions.Length; i++)
             {
-                for (int i = 0; i < MCQOptions.Length; i++)
-                {
-                    MCQOptions[i].GetComponentInChildren<Text>().text = "";
-                }
+                MCQOptions[i].GetComponentInChildren<Text>().text = "";
             }
 
             MCQBox.SetActive(false);
@@ -54,7 +58,6 @@ public class DisplayQuestion : MonoBehaviour
             FillInBox.SetActive(false);
         }
 
-
         OnHideQuiz?.Invoke();
     }
 
@@ -62,13 +65,16 @@ public class DisplayQuestion : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Z) && !isTyping)
         {
+            Debug.Log("HandleUpdate");
             CloseTheBox();
         }
     }
 
     
-    public IEnumerator ShowQuestion (Question data)
+    public IEnumerator ShowQuestion (Question data, GameObject npc)
     {
+        this.npc = npc;
+
         yield return new WaitForEndOfFrame();
 
         OnShowQuiz?.Invoke();
@@ -91,14 +97,13 @@ public class DisplayQuestion : MonoBehaviour
 
         if (data is MCQuestion)
         {
-            //MCQText.text = "";
+            MCQText.text = "";
+
             foreach (var letter in data.GetQuestionText().ToCharArray())
             {
                 MCQText.text += letter;
                 yield return new WaitForSeconds(1f / lettersPerSecond);
             }
-
-            Debug.Log(MCQText.text);
 
             for (int i = 0; i < MCQOptions.Length; i++)
             {
@@ -111,6 +116,8 @@ public class DisplayQuestion : MonoBehaviour
 
             for (int i = 0; i < MCQOptions.Length; i++)
             {
+                MCQOptions[i].onClick.RemoveAllListeners();
+
                 if (MCQOptions[i].GetComponentInChildren<Text>().text.Equals(data.GetCorrectAnswer()))
                 {
                     MCQOptions[i].onClick.AddListener(delegate { Right(); });
@@ -122,13 +129,16 @@ public class DisplayQuestion : MonoBehaviour
             }
         } else
         {
+            FillInText.text = "";
+            inputField.text = "";
+
             foreach (var letter in data.GetQuestionText().ToCharArray())
             {
                 FillInText.text += letter;
                 yield return new WaitForSeconds(1f / lettersPerSecond);
             }
 
-            
+            SubmitButton.onClick.RemoveAllListeners();
             SubmitButton.onClick.AddListener(delegate { Check(); });
         }
        
@@ -137,14 +147,15 @@ public class DisplayQuestion : MonoBehaviour
 
     private void Wrong()
     {
-        Debug.Log("You chose the wrong answer!");
+        player.Damage();
         CloseTheBox();
     }
 
     private void Right()
     {
-        Debug.Log("You chose the correct answer!");
+        player.Boost();
         CloseTheBox();
+        Destroy(this.npc);
     }
 
     public void Check()

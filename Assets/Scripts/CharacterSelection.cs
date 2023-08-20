@@ -7,6 +7,16 @@ public class CharacterSelection : MonoBehaviour
 {
     public static CharacterSelection instance;
 
+    [SerializeField] public string APILink;
+    public void SetLink(string value)
+    {
+        APILink = value;
+    }
+    public string GetLink()
+    {
+        return APILink;
+    }
+
     [SerializeField]
     private GameObject[] characters;
 
@@ -45,6 +55,8 @@ public class CharacterSelection : MonoBehaviour
         if (scene.name == "GamePlay")
         {
             Instantiate(characters[CharIndex], position, Quaternion.identity);
+            QuestionLoader questionLoader = GameObject.FindWithTag("questionLoader").GetComponent<QuestionLoader>();
+            questionLoader.SetLink(APILink);
         }
     }
 }

@@ -11,31 +11,32 @@ using UnityEngine.UI;
 public class CertInfo
 {
     public string message;
-    public CertMinted info;
+    //public CertMinted certMinted;
+    public Dictionary<string, string> certMinted { get; set; }
+
     public string success;
 
-    public object reward;
-
-    /*
     [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
     public Reward reward;
-    */
 }
 
+/*
 public class CertMinted 
 {
+    //public Dictionary<string, string> numericFields;
+    
     public string First;
     public string CertID;
     public string Second;
-
-    public int    Length;
+   
+    public int    __length__;
 
     public string CourseID;
     public string owner;
     public string TokenID;
 }
+*/
 
-/*
 public class Reward 
 {
     public string First;
@@ -48,7 +49,7 @@ public class Reward
 
     public string TokenID;
 }
-*/
+
 public class Congratulation : MonoBehaviour
 {
     public GameObject WinnerBox;
@@ -112,7 +113,11 @@ public class Congratulation : MonoBehaviour
         {
             CertInfo result = JsonConvert.DeserializeObject<CertInfo>(jsonResponse);
 
-            Debug.Log(result.info.CertID);
+            if (result.certMinted != null)
+            {
+                Debug.Log(result.certMinted["1"]);
+            }
+            //Debug.Log(result.info.CertID);
             //Destroy(mint);
             //certID.text += "hello";
             //certID.text += result.info.CertID;

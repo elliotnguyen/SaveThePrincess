@@ -5,24 +5,40 @@ using UnityEngine.UI;
 
 public class HealthController : MonoBehaviour
 {
-    //[SerializeField] Slider healthBar;
+    [SerializeField] Slider healthBar;
 
     private int numsOfWrongAnswer = 0;
     private int numsOfCorrectAnswer = 0;
-
+    private int maximumWrongAnswer = 0;
+    private int numsOfQuestions = 0;
     private HeroKnight player;
-
+    
     // Start is called before the first frame update
     void Start()
     {
-        //numsOfQuestions = QuestionLoader.Instance.QuizList.Count / 10;
-        //maximumWrongAnswer = numsOfQuestions / 5;
-        player = gameObject.GetComponent<HeroKnight>();
-        
-        //healthBar.maxValue = numsOfQuestions;
-        //healthBar.value = numsOfQuestions;
-    }
+        player = GameObject.FindGameObjectWithTag("player").GetComponent<HeroKnight>();
+        numsOfQuestions = QuestionLoader.Instance.QuizList.Count; 
+        maximumWrongAnswer = numsOfQuestions / 5;
 
+        healthBar.maxValue = maximumWrongAnswer != 0? maximumWrongAnswer : 1;
+        healthBar.value = healthBar.maxValue;
+    }
+    void Update()
+    {
+        if (numsOfQuestions == 0)
+        {
+            numsOfQuestions = QuestionLoader.Instance.QuizList.Count;
+            maximumWrongAnswer = numsOfQuestions / 5;
+            healthBar.maxValue = maximumWrongAnswer!= 0? maximumWrongAnswer : 1;
+            healthBar.value = maximumWrongAnswer;
+        }
+        if (!player)
+        {
+            player = GameObject.FindGameObjectWithTag("player").GetComponent<HeroKnight>();
+            Debug.Log("Player");
+        }
+    }
+    
     public void Boost()
     {
         player.m_jumpForce += 5f;
@@ -31,9 +47,9 @@ public class HealthController : MonoBehaviour
         numsOfCorrectAnswer++;
 
         Debug.Log(numsOfCorrectAnswer);
-        Debug.Log(QuestionLoader.Instance.QuizList.Count);
+        Debug.Log(numsOfQuestions);
 
-        if (numsOfCorrectAnswer == QuestionLoader.Instance.QuizList.Count / 20)
+        if (numsOfCorrectAnswer == numsOfQuestions)
         {
             Debug.Log("You win!");
         }
@@ -42,15 +58,14 @@ public class HealthController : MonoBehaviour
     public bool Damage()
     {
         numsOfWrongAnswer++;
-        //healthBar.value -= 1;
+        healthBar.value -= 1;
 
-        /*
         if (numsOfWrongAnswer == maximumWrongAnswer)
         {
             player.Death();
             return false;
         }
-        */
+        
         player.Hurt();
 
         return true;

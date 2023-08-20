@@ -28,7 +28,7 @@ public class VerifyController : MonoBehaviour
     void Start()
     {
         result.text = "";
-        courseIDInput.text = "";
+        courseIDInput.text = "64dd204d1c157746f11b69c6";
         outputArea = "http://localhost:3001/api/test/get_questions/";
         mint.onClick.AddListener(PostData);
     }

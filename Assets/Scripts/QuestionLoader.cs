@@ -11,7 +11,6 @@ public class QuestionLoader : MonoBehaviour
 
     [SerializeField] GameObject[] npcToBeSpawned;
     [SerializeField] Collider2D[] currentRoomSpawnableArea;
-
     public static QuestionLoader Instance { get; private set; }
 
     private string APILink;
@@ -25,7 +24,6 @@ public class QuestionLoader : MonoBehaviour
     {
         Instance = this;
     }
-
     public async void Start()
     {
         var url = "http://localhost:3001/api/test/get_questions/64dd204d1c157746f11b69c6"/*APILink*/;

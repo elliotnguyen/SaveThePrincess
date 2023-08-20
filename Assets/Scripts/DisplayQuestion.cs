@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using UnityEngine.SceneManagement;
 
 public class DisplayQuestion : MonoBehaviour
 {
@@ -23,7 +23,7 @@ public class DisplayQuestion : MonoBehaviour
 
     Question data;
 
-    public HealthController player;
+    [SerializeField] HealthController player;
     public GameObject npc;
 
     public static DisplayQuestion Instance { get; private set; }
@@ -35,7 +35,7 @@ public class DisplayQuestion : MonoBehaviour
 
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("player").GetComponent<HealthController>();
+        //player = GameObject.FindGameObjectWithTag("player").GetComponent<HealthController>();
     }
 
     bool isTyping;
@@ -120,10 +120,12 @@ public class DisplayQuestion : MonoBehaviour
 
                 if (MCQOptions[i].GetComponentInChildren<Text>().text.Equals(data.GetCorrectAnswer()))
                 {
+                    MCQOptions[i].onClick.RemoveAllListeners();
                     MCQOptions[i].onClick.AddListener(delegate { Right(); });
                 }
                 else
                 {
+                    MCQOptions[i].onClick.RemoveAllListeners();
                     MCQOptions[i].onClick.AddListener(delegate { Wrong(); });
                 }
             }
@@ -147,15 +149,20 @@ public class DisplayQuestion : MonoBehaviour
 
     private void Wrong()
     {
-        player.Damage();
         CloseTheBox();
+        if(!player.Damage())
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
+        
     }
 
     private void Right()
     {
-        player.Boost();
         CloseTheBox();
         Destroy(this.npc);
+        player.Boost();
+        
     }
 
     public void Check()
@@ -164,12 +171,17 @@ public class DisplayQuestion : MonoBehaviour
         Debug.Log(ans+":"+ data.GetCorrectAnswer());
         if (ans.ToLower().Equals(data.GetCorrectAnswer().ToLower()))
         {
-            Debug.Log("You entered the correct answer!");
             CloseTheBox();
+            Debug.Log("You entered the correct answer!");
+            player.Boost();
         } else
         {
-            Debug.Log("You entered the wrong answer!");
             CloseTheBox();
+            Debug.Log("You entered the wrong answer!");
+            if(!player.Damage())
+            {
+                SceneManager.LoadScene("MainMenu");
+            }
         }
     }
 }

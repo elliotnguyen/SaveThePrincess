@@ -51,6 +51,7 @@ public class MCQuestion : Question
     {
         int index = 0;
         string answerProcess = answer.ToUpper();
+        Debug.Log(answerProcess);
         switch(answer)
         {
             case "A": index = 0; break;

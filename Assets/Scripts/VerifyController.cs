@@ -17,8 +17,7 @@ public class UserInfo
 public class VerifyController : MonoBehaviour
 {
     [SerializeField] InputField courseIDInput;
-    //[SerializeField] InputField studentIDInput;
-    //[SerializeField] GameObject result;
+    
     [SerializeField] Text result;
     [SerializeField] Button mint;
 
@@ -28,21 +27,22 @@ public class VerifyController : MonoBehaviour
     void Start()
     {
         result.text = "";
-        courseIDInput.text = "64dd204d1c157746f11b69c6";
-        outputArea = "http://localhost:3001/api/test/get_questions/";
+        courseIDInput.text = ""/*"64dd204d1c157746f11b69c6"*/;
+        outputArea = "http://localhost:3001/api/contract/get_questions/";
         mint.onClick.AddListener(PostData);
     }
 
 
     async void PostData()
     {
-        await PostDataCoroutine();/*StartCoroutine(PostDataCoroutine()*/;
+        await PostDataCoroutine();
     }
-    /*IEnumerator*/private async Task PostDataCoroutine()
+
+    private async Task PostDataCoroutine()
     {
         string url = outputArea + courseIDInput.text;
 
-        Debug.Log(courseIDInput.text);
+        //Debug.Log(courseIDInput.text);
         Debug.Log(url);
 
         using var webRequest = UnityWebRequest.Get(url);
@@ -63,44 +63,5 @@ public class VerifyController : MonoBehaviour
             //yield return null;
             SceneManager.LoadScene("MainMenu");
         }
-
-        /*
-        string url = "";
-        var uwr = new UnityWebRequest(url, "POST");
-
-        UserInfo user = new UserInfo();
-        user.CourseID = courseIDInput.text;
-        user.StudentID = studentIDInput.text;
-
-        string json = JsonConvert.SerializeObject(user);
-        byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
-
-        uwr.uploadHandler = (UploadHandler)new UploadHandlerRaw(jsonToSend);
-        uwr.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
-
-        //Set headers for the request
-        uwr.SetRequestHeader("Content-Type", "application/json");
-        uwr.SetRequestHeader("Authorization", "");
-
-        //Make requests
-        yield return uwr.SendWebRequest();
-
-        if (uwr.isNetworkError || uwr.isHttpError)
-        {
-            outputArea = uwr.error;
-        }
-        else
-        {
-            outputArea = uwr.downloadHandler.text;
-        }
-        */
-       
-        /*
-        if (outputArea.Contains(""))
-        {
-            SceneManager.LoadScene("MainMenu");
-        }
-        */
     }
-    
 }

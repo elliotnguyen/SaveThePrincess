@@ -58,6 +58,7 @@ public class Congratulation : MonoBehaviour
     [SerializeField] Text certID;
     [SerializeField] Text reward;
     [SerializeField] Button exit;
+    [SerializeField] Text loading;
 
     public static Congratulation Instance;
 
@@ -74,10 +75,11 @@ public class Congratulation : MonoBehaviour
 
     public void Start()
     {
-        certID.text = "CertID: ";
+        //certID.text = "CertID: ";
         reward.text = "";
-        exit.onClick.AddListener(ExitScene);
-        mint.onClick.AddListener(Mint);
+        exit.enabled = false;
+        //exit.onClick.AddListener(ExitScene);
+        //mint.onClick.AddListener(Mint);
     }
 
     public void ExitScene()
@@ -85,7 +87,7 @@ public class Congratulation : MonoBehaviour
         SceneManager.LoadScene("Login");
     }
 
-    async void Mint()
+    public async void Mint()
     {
         await MintCert();
     }
@@ -94,13 +96,22 @@ public class Congratulation : MonoBehaviour
     {
         string url = QuestionLoader.Instance.GetLink().Replace("get_questions", "mint_cert");
 
+        Debug.Log(url);
+
         using var webRequest = UnityWebRequest.Get(url);
         webRequest.SetRequestHeader("Content-Type", "application/json");
 
         var operation = webRequest.SendWebRequest();
 
         while (!operation.isDone)
+        {
             await Task.Yield();
+            loading.text = "loading...";
+        }
+
+        loading.text = "get successfully";
+        mint.enabled = false;
+        exit.enabled = true;
 
         if (webRequest.result != UnityWebRequest.Result.Success)
         {
@@ -113,9 +124,18 @@ public class Congratulation : MonoBehaviour
         {
             CertInfo result = JsonConvert.DeserializeObject<CertInfo>(jsonResponse);
 
+            //mint.enabled = false;
+            //Destroy(mint);
+
             if (result.certMinted != null)
             {
-                Debug.Log(result.certMinted["1"]);
+                certID.text = "CertID: ";
+                certID.text += result.certMinted["1"];
+            }
+
+            if (result.reward != null)
+            {
+                reward.text = "Yahooo, you also get a reward!";
             }
             //Debug.Log(result.info.CertID);
             //Destroy(mint);

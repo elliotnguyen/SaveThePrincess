@@ -121,7 +121,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 1
   strength: 2
-  player: {fileID: 0}
+  knight: {fileID: 0}
   timeToDie: 3
-  attackableDistance: 7
-  deadDistance: 3
+  attackableDistance: 70
+  deadDistance: 25
+  walkableDistance: 200
+  leftBound: -247.87
+  rightBound: -220
+  positionY: 77.7

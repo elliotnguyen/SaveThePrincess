@@ -3,8 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-//using static UnityEditor.Progress;
-
+using UnityEngine.SceneManagement;
 
 public class DisplayQuestion : MonoBehaviour
 {
@@ -26,11 +25,19 @@ public class DisplayQuestion : MonoBehaviour
 
     Question data;
 
+    [SerializeField] HealthController player;
+    public GameObject npc;
+
     public static DisplayQuestion Instance { get; private set; }
 
     private void Awake()
     {
         Instance = this;
+    }
+
+    private void Start()
+    {
+        //player = GameObject.FindGameObjectWithTag("player").GetComponent<HealthController>();
     }
 
     bool isTyping;
@@ -41,12 +48,9 @@ public class DisplayQuestion : MonoBehaviour
         {
             MCQText.text = "";
 
-            if (data is MCQuestion)
+            for (int i = 0; i < MCQOptions.Length; i++)
             {
-                for (int i = 0; i < MCQOptions.Length; i++)
-                {
-                    MCQOptions[i].GetComponentInChildren<Text>().text = "";
-                }
+                MCQOptions[i].GetComponentInChildren<Text>().text = "";
             }
 
             MCQBox.SetActive(false);
@@ -56,7 +60,6 @@ public class DisplayQuestion : MonoBehaviour
             FillInBox.SetActive(false);
         }
 
-
         OnHideQuiz?.Invoke();
     }
 
@@ -64,13 +67,16 @@ public class DisplayQuestion : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Z) && !isTyping)
         {
+            //Debug.Log("HandleUpdate");
             CloseTheBox();
         }
     }
 
     
-    public IEnumerator ShowQuestion (Question data)
+    public IEnumerator ShowQuestion (Question data, GameObject npc)
     {
+        this.npc = npc;
+
         yield return new WaitForEndOfFrame();
 
         OnShowQuiz?.Invoke();
@@ -100,8 +106,6 @@ public class DisplayQuestion : MonoBehaviour
                 yield return new WaitForSeconds(1f / lettersPerSecond);
             }
 
-            Debug.Log(MCQText.text);
-
             for (int i = 0; i < MCQOptions.Length; i++)
             {
                 MCQOptions[i].GetComponentInChildren<Text>().text = "";
@@ -114,6 +118,8 @@ public class DisplayQuestion : MonoBehaviour
 
             for (int i = 0; i < MCQOptions.Length; i++)
             {
+                MCQOptions[i].onClick.RemoveAllListeners();
+
                 if (MCQOptions[i].GetComponentInChildren<Text>().text.Equals(data.GetCorrectAnswer()))
                 {
                     MCQOptions[i].onClick.RemoveAllListeners();
@@ -127,8 +133,9 @@ public class DisplayQuestion : MonoBehaviour
             }
         } else
         {
-            FillInText.text="";
-            inputField.text="";
+            FillInText.text = "";
+            inputField.text = "";
+
             foreach (var letter in data.GetQuestionText().ToCharArray())
             {
                 FillInText.text += letter;
@@ -144,20 +151,21 @@ public class DisplayQuestion : MonoBehaviour
 
     private void Wrong()
     {
-        Debug.Log("You chose the wrong answer!");
         CloseTheBox();
-        if(healthController.DamagePlayer())
-            heroKnight.Hurt();
-        else
-            heroKnight.Death();
-        
+        player.Damage();
+        /*
+        if(!player.Damage())
+        {
+            SceneManager.LoadScene("MainMenu");
+        }
+        */
     }
 
     private void Right()
     {
-        Debug.Log("You chose the correct answer!");
         CloseTheBox();
-        strengthController.StrongerPlayer();
+        Destroy(this.npc);
+        player.Boost();
         
     }
 
@@ -167,20 +175,19 @@ public class DisplayQuestion : MonoBehaviour
         Debug.Log(ans+":"+ data.GetCorrectAnswer());
         if (ans.ToLower().Equals(data.GetCorrectAnswer().ToLower()))
         {
-            Debug.Log("You entered the correct answer!");
             CloseTheBox();
-            strengthController.StrongerPlayer();
-            
+            Debug.Log("You entered the correct answer!");
+            player.Boost();
         } else
         {
             CloseTheBox();
             Debug.Log("You entered the wrong answer!");
-            if(healthController.DamagePlayer())
-                heroKnight.Hurt();
-            else
-                heroKnight.Death();
-        
-            
+            /*
+            if(!player.Damage())
+            {
+                SceneManager.LoadScene("MainMenu");
+            }
+            */
         }
     }
 }

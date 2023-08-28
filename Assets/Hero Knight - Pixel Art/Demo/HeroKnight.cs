@@ -4,7 +4,7 @@ using System.Collections;
 public class HeroKnight : MonoBehaviour {
 
     [SerializeField] float      m_speed = 4.0f;
-    [SerializeField] float      m_jumpForce = 7.5f;
+    public           float      m_jumpForce = 15f;
     [SerializeField] float      m_rollForce = 6.0f;
     [SerializeField] bool       m_noBlood = false;
     [SerializeField] GameObject m_slideDust;
@@ -21,11 +21,18 @@ public class HeroKnight : MonoBehaviour {
     private bool                m_rolling = false;
     private int                 m_facingDirection = 1;
     private int                 m_currentAttack = 0;
-    private float               m_timeSinceAttack = 0.0f;
+    public float                m_timeSinceAttack = 0.0f;
     private float               m_delayToIdle = 0.0f;
     private float               m_rollDuration = 8.0f / 14.0f;
     private float               m_rollCurrentTime;
+<<<<<<< HEAD
     public LayerMask InterablesLayer;
+=======
+
+    public bool                 isAttacking = false;
+
+
+>>>>>>> main
 
     // Use this for initialization
     void Start ()
@@ -40,7 +47,7 @@ public class HeroKnight : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update ()
+    public void HandleUpdate ()
     {
         // Increase timer that controls attack combo
         m_timeSinceAttack += Time.deltaTime;
@@ -94,7 +101,10 @@ public class HeroKnight : MonoBehaviour {
         //Wall Slide
         m_isWallSliding = (m_wallSensorR1.State() && m_wallSensorR2.State()) || (m_wallSensorL1.State() && m_wallSensorL2.State());
         m_animator.SetBool("WallSlide", m_isWallSliding);
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
         /*
         //Death
         if (Input.GetKeyDown("e") && !m_rolling)
@@ -108,8 +118,13 @@ public class HeroKnight : MonoBehaviour {
         */
 
         //Attack
+<<<<<<< HEAD
+=======
+        else */
+>>>>>>> main
         if(Input.GetMouseButtonDown(0) && m_timeSinceAttack > 0.25f && !m_rolling)
         {
+            isAttacking = true;
             m_currentAttack++;
 
             // Loop back to one after third attack
@@ -157,6 +172,7 @@ public class HeroKnight : MonoBehaviour {
             // Reset timer
             m_delayToIdle = 0.05f;
             m_animator.SetInteger("AnimState", 1);
+            isAttacking = false;
         }
         //Interact
         else if (Input.GetKeyDown(KeyCode.Z) && m_grounded && !m_rolling)
@@ -171,6 +187,14 @@ public class HeroKnight : MonoBehaviour {
                 if(m_delayToIdle < 0)
                     m_animator.SetInteger("AnimState", 0);
         }
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            //Debug.Log("Update of Hero Knight");
+            Interact();
+        }
+
+        //isAttacking = false;
     }
 
     // Animation Events
@@ -198,15 +222,46 @@ public class HeroKnight : MonoBehaviour {
         m_animator.SetBool("noBlood", m_noBlood);
         m_animator.SetTrigger("Death");
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
     public void Hurt()
     {
         m_animator.SetTrigger("Hurt");
     }
+<<<<<<< HEAD
     private void Interact()
     {
 
         var interactPos = m_body2d.transform.position;
         var collider = Physics2D.OverlapCircle(interactPos, 10f, LayerMask.GetMask("Interables"));
+=======
+
+    public void Attack()
+    {
+        m_currentAttack++;
+
+        // Loop back to one after third attack
+        if (m_currentAttack > 3)
+            m_currentAttack = 1;
+
+        // Reset Attack combo if time since last attack is too large
+        if (m_timeSinceAttack > 1.0f)
+            m_currentAttack = 1;
+
+        // Call one of three attack animations "Attack1", "Attack2", "Attack3"
+        m_animator.SetTrigger("Attack" + m_currentAttack);
+
+        // Reset timer
+        m_timeSinceAttack = 0.0f;
+    }
+    
+    private void Interact()
+    {
+        var interactPos = m_body2d.transform.position;
+        var collider = Physics2D.OverlapCircle(interactPos, 5f, LayerMask.GetMask("Interables"));
+>>>>>>> main
         if (collider != null)
         {
             collider.GetComponent<Interactable>()?.Interact();

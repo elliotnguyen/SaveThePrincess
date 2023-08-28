@@ -5,28 +5,17 @@ using UnityEngine;
 
 public class NPCController : MonoBehaviour, Interactable
 {
-    //[SerializeField] Dialog dialog;
-    //[SerializeField] QuestionData quiz;
+    [SerializeField] int quizIndex;
+    
+    public void SetQuizIndex(int value)
+    {
+        quizIndex = value;
+    }
+    
     //public async Task Interact()
     public void Interact()
     {
-        //var url = "https://mocki.io/v1/46f4b3a0-690d-4308-b897-1bef1df4c7e3";
-
-        //var httpClient = new APIController();
-        //var questions = await httpClient.Get<QuestionData[]>(url);
-        //List<Question> questions = await httpClient.Get<List<Question>>(url);
-        //Debug.Log(questions[0].correctAnswerIndex);
-        //questions[0].SetQuestion("asdbkasd");
-        //Debug.Log(questions.Count);
-        //StartCoroutine(DisplayQuestion.Instance.ShowQuestion(questions[0]));
-        //QuestionData[] questions = APIController.Instance.questions;
-        //dialog.AddLine(questions[0].questionText);
-        //StartCoroutine(DialogManager.Instance.ShowDialog(dialog));
-        List<Question> Qlist = QuestionLoader.Instance.QuizList;
-        int index = Random.Range(0,Qlist.Count);
-        Question tmp = Qlist[index];
-        Qlist.RemoveAt(index);
-        StartCoroutine(DisplayQuestion.Instance.ShowQuestion(tmp));
-        Destroy(gameObject, 0.1f);
+        Question tmp = QuestionLoader.Instance.QuizList[quizIndex];
+        StartCoroutine(DisplayQuestion.Instance.ShowQuestion(tmp, gameObject));
     }
 }

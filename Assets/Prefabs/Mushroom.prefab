@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1949736615657265135}
   - component: {fileID: 6545137999161658823}
   - component: {fileID: 2839727934598719631}
+  - component: {fileID: 4768483366490818626}
   - component: {fileID: 1753010657330833604}
   m_Layer: 0
   m_Name: Mushroom
@@ -107,6 +108,22 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4768483366490818626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8984615481222234466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f56e5aad0b634ec8b22c4d1a9e85d15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  topBound: 70
+  downBound: 50
+  leftBound: -290
+  rightBound: 58
 --- !u!114 &1753010657330833604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,7 +138,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 2
   strength: 2
-  player: {fileID: 0}
+  knight: {fileID: 0}
   timeToDie: 1.5
-  attackableDistance: 7
-  deadDistance: 3
+  attackableDistance: 70
+  deadDistance: 25

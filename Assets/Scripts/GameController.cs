@@ -6,7 +6,8 @@ public enum GameState { FreeRoam, SolveQuiz, Battle}
 
 public class GameController : MonoBehaviour
 {
-    [SerializeField] PlayerController playerController;
+    //[SerializeField] PlayerController playerController;
+    [SerializeField] HeroKnight player;
 
     GameState state;
 
@@ -15,7 +16,7 @@ public class GameController : MonoBehaviour
 
     private void Start()
     {
-        playerController = GameObject.FindWithTag("player").GetComponent<PlayerController>();
+        player = GameObject.FindWithTag("player").GetComponent<HeroKnight>();
 
         DisplayQuestion.Instance.OnShowQuiz += () =>
         {
@@ -32,6 +33,7 @@ public class GameController : MonoBehaviour
     {
        if (state == GameState.FreeRoam)
         {
+            player.HandleUpdate();
             //playerController.HandleUpdate();
         } else if (state == GameState.SolveQuiz)
         {

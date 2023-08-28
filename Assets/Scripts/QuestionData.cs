@@ -54,10 +54,10 @@ public class MCQuestion : Question
         Debug.Log(answerProcess);
         switch(answer)
         {
-            case "A": index = 0; break;
-            case "B": index = 1; break;
-            case "C": index = 2; break;
-            case "D": index = 3; break;
+            case "A": case "a": index = 0; break;
+            case "B": case "b": index = 1; break;
+            case "C": case "c": index = 2; break;
+            case "D": case "d": index = 3; break;
 
             default: throw new ArgumentException();
         }
@@ -69,7 +69,7 @@ public class MCQuestion : Question
     {
         //return answerOptions;
         return options;
-    } 
+    }
 }
 
 //Solve the warning: "Must be instantiated using the ScriptableObject.CreateInstance method instead of new SO"

@@ -109,7 +109,7 @@ public class Congratulation : MonoBehaviour
             loading.text = "loading...";
         }
 
-        loading.text = "get successfully";
+        loading.text = "";
         mint.enabled = false;
         exit.enabled = true;
 
@@ -130,7 +130,7 @@ public class Congratulation : MonoBehaviour
             if (result.certMinted != null)
             {
                 certID.text = "CertID: ";
-                certID.text += result.certMinted["1"];
+                certID.text += result.certMinted["tokenID"];
             }
 
             if (result.reward != null)

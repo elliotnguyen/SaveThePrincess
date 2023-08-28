@@ -57,7 +57,7 @@ public class HealthController : MonoBehaviour
         Debug.Log(numsOfCorrectAnswer);
         Debug.Log(numsOfQuestions);
 
-        if (numsOfCorrectAnswer == 1/*numsOfQuestions*/)
+        if (numsOfCorrectAnswer == numsOfQuestions)
         {
             Congratulation.Instance.WinnerBox.SetActive(true);
         }
@@ -68,7 +68,7 @@ public class HealthController : MonoBehaviour
         numsOfWrongAnswer++;
         healthBar.value -= 1;
 
-        if (numsOfWrongAnswer == 1/*maximumWrongAnswer*/)
+        if (numsOfWrongAnswer == maximumWrongAnswer)
         {
             player.Death();
             //gameover.Display();
